@@ -5,7 +5,7 @@ public class ContainsDuplicate extends BaseArray {
         int nums[] = {1, 2, 3, 1};
 
         ContainsDuplicate obj = new ContainsDuplicate();
-        boolean isDuplicate = obj.containsDuplicate(nums);
+        boolean isDuplicate = obj.containsDuplicate3(nums);
 
         System.out.println("isDuplicate:" + isDuplicate);
     }
@@ -33,6 +33,20 @@ public class ContainsDuplicate extends BaseArray {
         for (int i = 1; i < nums.length; i++) {
             if (nums[i] - nums[i - 1] == 0)
                 return true;
+        }
+
+        return false;
+
+    }
+
+    // 提交通过，这种就是Set添加查找是否存在的时间了，都是O(1)，所以这个时间复杂度是O(n)
+    private boolean containsDuplicate3(int[] nums) {
+        java.util.Set<Integer> set = new java.util.HashSet<>();
+
+        for (int i = 0; i < nums.length; i++) {
+            if (set.contains(nums[i]))
+                return true;
+            set.add(nums[i]);
         }
 
         return false;
