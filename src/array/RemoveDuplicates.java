@@ -1,5 +1,10 @@
 package array;
 
+/**
+ * 对一个已经有序的数组处理，处理后返回一个整数length，这个整数length表示数组中不重复数的个数，
+ * 并且数组前length个数为有序不重复的数，后面的数不用处理。
+ * 要求：原地，时间复杂度O(1)
+ */
 public class RemoveDuplicates extends BaseArray {
 
     public static void main(String[] args) {
@@ -14,10 +19,6 @@ public class RemoveDuplicates extends BaseArray {
     }
 
     /**
-     * 对一个已经有序的数组处理，处理后返回一个整数length，这个整数length表示数组中不重复数的个数，
-     * 并且数组前length个数为有序不重复的数，后面的数不用处理。
-     * 要求：原地，时间复杂度O(1)
-     *
      * @param nums
      * @return length
      */

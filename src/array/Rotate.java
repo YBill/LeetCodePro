@@ -2,6 +2,13 @@ package array;
 
 import java.util.Arrays;
 
+/**
+ * 旋转数组：
+ * eg: num = [a,b,c,d]
+ * rotate[num. 2] ->
+ * 第1步: num = [d,a,b,c]
+ * 第2步: num = [c,d,a,b]
+ */
 public class Rotate {
 
     public static void main(String[] args) {
@@ -14,12 +21,6 @@ public class Rotate {
     }
 
     /**
-     * 旋转数组：
-     * eg: num = [a,b,c,d]
-     * rotate[num. 2] ->
-     * 第1步: num = [d,a,b,c]
-     * 第2步: num = [c,d,a,b]
-     *
      * @param nums
      * @param k
      */
