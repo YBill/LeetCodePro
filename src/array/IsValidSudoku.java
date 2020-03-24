@@ -42,9 +42,9 @@ public class IsValidSudoku {
         ArrayList<Character>[] columns = new ArrayList[9];
         ArrayList<Character>[] boxes = new ArrayList[9];
         for (int i = 0; i < 9; i++) {
-            rows[i] = new ArrayList<>();
-            columns[i] = new ArrayList<>();
-            boxes[i] = new ArrayList<>();
+            rows[i] = new ArrayList<>(9);
+            columns[i] = new ArrayList<>(9);
+            boxes[i] = new ArrayList<>(9);
         }
 
         for (int i = 0; i < 9; i++) {
