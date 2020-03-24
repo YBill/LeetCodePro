@@ -1,5 +1,7 @@
 package array;
 
+import java.util.ArrayList;
+
 /**
  * 判断一个 9x9 的数独是否有效。只需要根据以下规则，验证已经填入的数字是否有效即可。
  * <p>
@@ -13,22 +15,65 @@ public class IsValidSudoku {
 
     public static void main(String[] args) {
         char[][] nums = {
-                {'5', '3', '.', '.', '7', '.', '.', '.', '.'},
-                {'6', '.', '.', '1', '9', '5', '.', '.', '.'},
-                {'.', '9', '8', '.', '.', '.', '.', '6', '.'},
-                {'8', '.', '.', '.', '6', '.', '.', '.', '3'},
-                {'4', '.', '.', '8', '.', '3', '.', '.', '1'},
-                {'7', '.', '.', '.', '2', '.', '.', '.', '6'},
-                {'.', '6', '.', '.', '.', '.', '2', '8', '.'},
-                {'.', '.', '.', '4', '1', '9', '.', '.', '5'},
-                {'.', '.', '.', '.', '8', '.', '.', '7', '9'}
+                {'.', '.', '4', '.', '.', '.', '6', '3', '.'},
+                {'.', '.', '.', '.', '.', '.', '.', '.', '.'},
+                {'5', '.', '.', '.', '.', '.', '.', '9', '.'},
+
+                {'.', '.', '.', '5', '6', '.', '.', '.', '.'},
+                {'4', '.', '3', '.', '.', '.', '.', '.', '1'},
+                {'.', '.', '.', '7', '.', '.', '.', '.', '.'},
+
+                {'.', '.', '.', '5', '.', '.', '.', '.', '.'},
+                {'.', '.', '.', '.', '.', '.', '.', '.', '.'},
+                {'.', '.', '.', '.', '.', '.', '.', '.', '.'}
         };
 
         IsValidSudoku obj = new IsValidSudoku();
 
-        boolean result = obj.isValidSudoku(nums);
+        boolean result = obj.isValidSudoku2(nums);
 
         System.out.println("result:" + result);
+    }
+
+    public boolean isValidSudoku2(char[][] board) {
+        // 将数独转化为Map，或List，数据多的话Map查找更快，Map中只需要将数独中数存key里就可以，值是啥都不所谓，不过这里最多9个数用啥都可以或写个数组
+        // 每一行一个集合，每一列一个集合，每一个块一个集合，分别将数独的三个条件都转化为各自的集合
+        ArrayList<Character>[] rows = new ArrayList[9];
+        ArrayList<Character>[] columns = new ArrayList[9];
+        ArrayList<Character>[] boxes = new ArrayList[9];
+        for (int i = 0; i < 9; i++) {
+            rows[i] = new ArrayList<>();
+            columns[i] = new ArrayList<>();
+            boxes[i] = new ArrayList<>();
+        }
+
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                char data = board[i][j];
+                if (data != '.') {
+                    if (rows[i].contains(data)) {
+                        return false;
+                    }
+                    rows[i].add(data);
+
+                    if (columns[j].contains(data)) {
+                        return false;
+                    }
+                    columns[j].add(data);
+
+                    // 计算每一个块的下标，这里是按从左到右，从上到下计算下标 0-8
+                    // 找规律，i=0,1,2   3,4,5  6,7,8  除3分别算出0,1,2 再乘3就到每行了 加上j/3 再向右偏移
+                    // 找规律的时候写出来很容易看出来，实在找不到就 if-else 了
+                    int index = i / 3 * 3 + j / 3;
+                    if (boxes[index].contains(data)) {
+                        return false;
+                    }
+                    boxes[index].add(data);
+                }
+            }
+        }
+
+        return true;
     }
 
     public boolean isValidSudoku(char[][] board) {
