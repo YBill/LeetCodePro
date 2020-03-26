@@ -28,6 +28,53 @@ public class MyAtoi {
         System.out.println(num);
     }
 
+    // 通过整型承接最后结果，承接前先判断是否会越界
+    public int myAtoi3(String str) {
+        char[] myChar = str.toCharArray();
+
+        int length = myChar.length;
+
+        if (length == 0)
+            return 0;
+
+        int startIndex = 0;
+
+        while (startIndex < length && myChar[startIndex] == ' ')
+            startIndex++;
+
+        int sign = 1;
+
+        if (startIndex < length) {
+            if (myChar[startIndex] == '-') {
+                startIndex++;
+                sign = -1;
+            } else if (myChar[startIndex] == '+') {
+                startIndex++;
+            }
+        }
+
+        int total = 0;
+
+        while (startIndex < length) {
+            int num = myChar[startIndex] - '0';
+            if (num >= 0 && num <= 9) {
+                if (total > Integer.MAX_VALUE / 10 || (total == Integer.MAX_VALUE / 10 && num > Integer.MAX_VALUE % 10)) {
+                    return sign == -1 ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+                }
+
+                total = 10 * total + num;
+                startIndex++;
+                continue;
+            }
+            break;
+        }
+
+        total = total * sign;
+
+        return total;
+    }
+
+    // 通过double承接最后数字，long也越界了
     public int myAtoi2(String str) {
         char[] myChar = str.toCharArray();
 
@@ -74,6 +121,7 @@ public class MyAtoi {
         return (int) total;
     }
 
+    // 通过字符串拼接最后数字
     public int myAtoi(String str) {
         char[] myChar = str.toCharArray();
 
