@@ -15,26 +15,35 @@ public class Rotate {
         int nums[] = {-1, -100, 3, 99};
 
         Rotate obj = new Rotate();
-        obj.rotate2(nums, 2);
+        obj.rotate3(nums, 2);
 
         System.out.println(Arrays.toString(nums));
     }
 
     /**
+     * 借助一个新数组完成，时间复杂度O(n)
+     *
      * @param nums
      * @param k
      */
     private void rotate(int[] nums, int k) {
-        for (int i = 0; i < k; i++) {
-            int end = nums[nums.length - 1];
-            for (int j = nums.length - 1; j > 0; j--) {
-                nums[j] = nums[j - 1];
-            }
-            nums[0] = end;
+        int length = nums.length;
+        k %= length;
+        int[] newNums = new int[length];
+        for (int i = 0; i < nums.length; i++) {
+            newNums[i] = nums[(length - k + i) % length];
+        }
+        for (int i = 0; i < newNums.length; i++) {
+            nums[i] = newNums[i];
         }
     }
 
-    // k % length，防止循环无效处理
+    /**
+     * 执行k次旋转，时间复杂度O(kn)
+     *
+     * @param nums
+     * @param k
+     */
     private void rotate2(int[] nums, int k) {
         int length = nums.length;
         for (int i = 0; i < k % length; i++) {
@@ -43,6 +52,27 @@ public class Rotate {
                 nums[j] = nums[j - 1];
             }
             nums[0] = end;
+        }
+    }
+
+    /**
+     * 反转数组，时间复杂度O(n)
+     *
+     * @param nums
+     * @param k
+     */
+    private void rotate3(int[] nums, int k) {
+        k %= nums.length;
+        reverse(nums, 0, nums.length - 1); // 先反转全部
+        reverse(nums, 0, k - 1); // 再反转前k个
+        reverse(nums, k, nums.length - 1); // 最后反转剩下的
+    }
+
+    private void reverse(int[] nums, int start, int end) {
+        while (start < end) {
+            int temp = nums[start];
+            nums[start++] = nums[end];
+            nums[end--] = temp;
         }
     }
 
