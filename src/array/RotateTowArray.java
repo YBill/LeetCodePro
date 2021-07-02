@@ -34,10 +34,46 @@ public class RotateTowArray {
 
         RotateTowArray obj = new RotateTowArray();
 
-        obj.rotate(nums);
+        obj.rotate3(nums);
 
         for (int[] num : nums) {
             System.out.println(Arrays.toString(num));
+        }
+    }
+
+    /**
+     * 相当于每一圈都旋转
+     */
+    public void rotate3(int[][] matrix) {
+        int length = matrix.length;
+        for (int i = 0; i < length / 2; i++) {
+            for (int j = i; j < length - i - 1; j++) {
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[length - j - 1][i];
+                matrix[length - j - 1][i] = matrix[length - i - 1][length - j - 1];
+                matrix[length - i - 1][length - j - 1] = matrix[j][length - i - 1];
+                matrix[j][length - i - 1] = temp;
+            }
+        }
+    }
+
+    /**
+     * 先将每行上下交换
+     * 然后再将主对角线两边元素都交换，主对角线不动
+     */
+    public void rotate2(int[][] matrix) {
+        int length = matrix.length;
+        for (int i = 0; i < length / 2; i++) {
+            int[] temp = matrix[i];
+            matrix[i] = matrix[length - i - 1];
+            matrix[length - i - 1] = temp;
+        }
+        for (int i = 0; i < length - 1; i++) {
+            for (int j = i + 1; j < length; j++) {
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[j][i];
+                matrix[j][i] = temp;
+            }
         }
     }
 
