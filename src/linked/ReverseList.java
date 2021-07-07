@@ -24,20 +24,22 @@ public class ReverseList {
 
     // 递归
     public ListNode reverseList2(ListNode head) {
-        // 终止条件
+        // 头节点为空或只有一个节点，不需要反转，就返回自己
         if (head == null || head.next == null)
             return head;
-        // 保存当前节点的下一个结点
-        ListNode next = head.next;
-        // 从当前节点的下一个结点开始递归调用
-        ListNode reverse = reverseList2(next);
-        // 这里head相当于变成了尾结点，尾结点都是为空的，否则会构成环
-        head.next = null;
-        // reverse是反转之后的链表，因为函数reverseList表示的是对链表的反转，
-        // 所以反转完之后next肯定是链表reverse的尾结点，然后我们再把当前节点
-        // head挂到next节点的后面就完成了链表的反转。
-        next.next = head;
-        return reverse;
+
+        // 得到的就是部分反转后的链表
+        ListNode newHead = reverseList2(head.next); // 1
+        // 将head的下一个节点指向head自己
+        head.next.next = head; // 2
+        // 将head之前的指向断开
+        head.next = null; // 3
+
+        // 为啥上面第2和3行代码执行后会改变newHead呢？
+        // 因为head本来的指向的元素其实挂到了newHead的链接后的最后一个节点上了
+        // 在执行了第2行代码后其实是将head链接到了newHead后面，然后第3行代码将head后面节点断开
+        // 其实2、3行代码的意思就是将head那一个元素链接到newHead后面了
+        return newHead;
     }
 
     // 循环遍历
