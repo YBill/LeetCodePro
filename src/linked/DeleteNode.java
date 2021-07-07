@@ -16,45 +16,20 @@ package linked;
  */
 public class DeleteNode {
 
-    private static class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode(int x) {
-            val = x;
-        }
-    }
-
     public static void main(String[] args) {
         DeleteNode node = new DeleteNode();
 
         // 构造一个链表
-        ListNode head = new ListNode(4);
-        ListNode second = new ListNode(5);
-        ListNode third = new ListNode(1);
-        ListNode fourth = new ListNode(9);
-        head.next = second;
-        second.next = third;
-        third.next = fourth;
+        int[] arr = new int[]{4, 5, 1, 9};
+        ListNode head = new ListNode(arr);
 
-        printLinked(head);
+        head.printLinked();
 
         // 删除链表第二个元素
+        ListNode second = head.next;
         node.deleteNode(second);
 
-        printLinked(head);
-    }
-
-    private static void printLinked(ListNode head) {
-        StringBuilder builder = new StringBuilder();
-        ListNode cur = head;
-        while (cur != null) {
-            builder.append(cur.val);
-            builder.append("->");
-            cur = cur.next;
-        }
-        builder.append("NULL");
-        System.out.println(builder);
+        head.printLinked();
     }
 
     /**

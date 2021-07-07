@@ -5,49 +5,15 @@ package linked;
  */
 public class RemoveNthFromEnd {
 
-    private static class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode() {
-        }
-
-        ListNode(int val) {
-            this.val = val;
-        }
-
-        ListNode(int val, ListNode next) {
-            this.val = val;
-            this.next = next;
-        }
-    }
-
     public static void main(String[] args) {
         RemoveNthFromEnd node = new RemoveNthFromEnd();
 
         // 构造一个链表
-        RemoveNthFromEnd.ListNode head = new RemoveNthFromEnd.ListNode(4);
-        RemoveNthFromEnd.ListNode second = new RemoveNthFromEnd.ListNode(5);
-        RemoveNthFromEnd.ListNode third = new RemoveNthFromEnd.ListNode(1);
-        RemoveNthFromEnd.ListNode fourth = new RemoveNthFromEnd.ListNode(9);
-        head.next = second;
-        second.next = third;
-        third.next = fourth;
+        int[] arr = new int[]{4, 5, 1, 9};
+        ListNode head = new ListNode(arr);
 
-        printLinked(head);
-        printLinked(node.removeNthFromEnd3(head, 1));
-    }
-
-    private static void printLinked(RemoveNthFromEnd.ListNode head) {
-        StringBuilder builder = new StringBuilder();
-        RemoveNthFromEnd.ListNode cur = head;
-        while (cur != null) {
-            builder.append(cur.val);
-            builder.append("->");
-            cur = cur.next;
-        }
-        builder.append("NULL");
-        System.out.println(builder);
+        head.printLinked();
+        node.removeNthFromEnd3(head, 1).printLinked();
     }
 
     /**
