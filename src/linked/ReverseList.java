@@ -1,5 +1,9 @@
 package linked;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
+
 /**
  * 给你单链表的头节点 head ，请你反转链表，并返回反转后的链表。
  * <p>
@@ -17,9 +21,43 @@ public class ReverseList {
 
         head.printLinked();
 
-        ListNode result = node.reverseList2(head);
+        ListNode result = node.reverseList3(head);
 
         result.printLinked();
+    }
+
+    /**
+     * 使用栈，因为栈是后进先出的，正好先后入栈的再拿出来反过来了
+     * 但是栈是线程安全的，感觉没必要使用他，这里使用ArrayList了
+     */
+    public ListNode reverseList3(ListNode head) {
+        if (head == null)
+            return null;
+
+        List<ListNode> list = new ArrayList<>();
+        while (head != null) {
+            // 分别放出list中，但是需要注意的是，放进去的不是简单的一个链表的节点
+            // 而是节点后还带着节点了，只不过头逐渐向后了；但是这样后面取得时候需要将每一个都断开
+            list.add(head);
+            head = head.next;
+        }
+
+        int length = list.size();
+        // 倒着取出
+        ListNode newHead = list.get(length - 1);
+        // 记录列表头，要不一会向后移找不到头了
+        ListNode dummyHead = newHead;
+        for (int i = length - 2; i >= 0; i--) {
+            ListNode temp = list.get(i);
+            // 这里注意一定要置空，置空后就变成一个简单的节点了
+            // 不置空的话temp后面还跟一串节点了
+            temp.next = null;
+            newHead.next = temp;
+            newHead = newHead.next;
+        }
+
+        return dummyHead;
+
     }
 
     // 递归
