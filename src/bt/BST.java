@@ -267,6 +267,95 @@ public class BST {
         return list;
     }
 
+    /**
+     * 层序遍历-递归
+     */
+    public List<Integer> levelOrder() {
+        List<List<Integer>> list = new ArrayList<>();
+        levelOrder(root, list, 0);
+        // 因为这里要求按层序遍历返回所有节点，需要把list中每一层都展开
+        // 这种情况可以看levelOrderNR2()方法比较好
+        List<Integer> newList = new ArrayList<>();
+        for (List<Integer> integers : list) {
+            newList.addAll(integers);
+        }
+        return newList;
+    }
+
+    /**
+     * List的范型是List<Integer>，通过List<Integer>记录每一层的节点
+     * List<List<Integer>>最终得到的是每一层的节点
+     */
+    private void levelOrder(Node node, List<List<Integer>> list, int deep) {
+        if (node == null) return;
+        if (list.size() == deep)
+            list.add(new ArrayList<>());
+
+        list.get(deep).add(node.val);
+        levelOrder(node.left, list, deep + 1);
+        levelOrder(node.right, list, deep + 1);
+    }
+
+    public List<Integer> levelOrderNR() {
+        List<List<Integer>> list = levelOrderNR(root);
+        List<Integer> newList = new ArrayList<>();
+        for (List<Integer> integers : list) {
+            newList.addAll(integers);
+        }
+        return newList;
+    }
+
+    /**
+     * 层序遍历-非递归
+     * 得到每一层的节点都放到一个List<Integer>中
+     * 最后把所有层都放到一个List中
+     */
+    private List<List<Integer>> levelOrderNR(Node root) {
+        List<List<Integer>> list = new ArrayList<>();
+        if (root == null)
+            return list;
+        Queue<Node> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            // 每一层节点个数
+            int levelNum = queue.size();
+            // 存放每一层的所有节点
+            List<Integer> levelList = new ArrayList<>(levelNum);
+            while (levelNum > 0) {
+                Node node = queue.poll();
+                levelList.add(node.val);
+                if (node.left != null)
+                    queue.offer(node.left);
+                if (node.right != null)
+                    queue.offer(node.right);
+                levelNum--;
+            }
+            list.add(levelList);
+        }
+        return list;
+    }
+
+    /**
+     * 层序遍历-非递归
+     * 通过队列赋值完成
+     * 注意：这个是按层序遍历的顺序把所有数据都放到一个List中了，如果
+     * 要输入每一层都有哪些节点，这种方式就不行了，没有按层分类
+     */
+    public List<Integer> levelOrderNR2() {
+        List<Integer> list = new ArrayList<>();
+        Queue<Node> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            Node node = queue.poll();
+            list.add(node.val);
+            if (node.left != null)
+                queue.offer(node.left);
+            if (node.right != null)
+                queue.offer(node.right);
+        }
+        return list;
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
@@ -328,6 +417,11 @@ public class BST {
         print(bst.postOrderNR());
         print(bst.postOrderNR2());
         print(bst.postOrderNR3());
+
+        System.out.println("层序遍历：");
+        print(bst.levelOrder());
+        print(bst.levelOrderNR());
+        print(bst.levelOrderNR2());
     }
 
     private static void print(List<Integer> list) {
