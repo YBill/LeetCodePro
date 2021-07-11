@@ -6,7 +6,7 @@ import java.util.*;
  * 不是LeetCode题目
  * 自己组建的二分搜索树
  * 二分搜索树：每个节点的值都大于其左子树所有节点的值，并且小于其右子树所有节点的值
- * 功能包括：包括添加、遍历元素（前中后递归和非递归）
+ * 功能包括：包括添加、删除、遍历元素（前中后递归和非递归）
  */
 public class BST {
 
@@ -22,6 +22,10 @@ public class BST {
 
     private Node root;
     private int size;
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
 
     public void add(int val) {
         root = add(root, val);
@@ -41,6 +45,110 @@ public class BST {
         }
 
         return root;
+
+    }
+
+    // 查找最小值
+    public int minValue() {
+        if (root == null)
+            throw new IllegalArgumentException("BST is Empty");
+        return minValue(root).val;
+    }
+
+    private Node minValue(Node node) {
+        if (node.left == null)
+            return node;
+        return minValue(node.left);
+    }
+
+    // 查找最大值
+    public int maxValue() {
+        if (root == null)
+            throw new IllegalArgumentException("BST is Empty");
+        return maxValue(root).val;
+    }
+
+    private Node maxValue(Node node) {
+        if (node.right == null)
+            return node;
+        return maxValue(node.right);
+    }
+
+    // 删除二叉树中最小值
+    public int removeMin(){
+        int res = minValue();
+        root = removeMin(root);
+        return res;
+    }
+
+    // 删除以node为根的树中的最小节点，并返回新的树的根
+    private Node removeMin(Node node) {
+        if (node.left == null) {
+            size--;
+            Node right = node.right;
+            node.right = null;
+            return right;
+        }
+        node.left = removeMin(node.left);
+        return node;
+    }
+
+    // 删除二叉树中最大值
+    public int removeMax(){
+        int res = maxValue();
+        root = removeMax(root);
+        return res;
+    }
+
+    // 删除以node为根的树中的最大节点，并返回新的树的根
+    private Node removeMax(Node node) {
+        if (node.right == null) {
+            size--;
+            Node left = node.left;
+            node.left = null;
+            return left;
+        }
+        node.right = removeMax(node.right);
+        return node;
+    }
+
+    // 删除节点值为val的节点
+    public void remove(int val) {
+        root = remove(root, val);
+    }
+
+    // 删除以node为根，节点值为val的节点，并返回新的树的根
+    private Node remove(Node node, int val) {
+        if (node == null)
+            return null;
+        if (val < node.val) {
+            node.left = remove(node.left, val);
+            return node;
+        } else if (val > node.val) {
+            node.right = remove(node.right, val);
+            return node;
+        } else {// val == node.val
+            if (node.left == null) {
+                size--;
+                Node right = node.right;
+                node.right = null;
+                return right;
+            }
+            if (node.right == null) {
+                size--;
+                Node left = node.left;
+                node.left = null;
+                return left;
+            }
+            // 这里是找node的后继，然后让后继顶替原来node位置，结果还是一个二分搜索树
+            // 也可以找node的前驱，基本代码差不多，让前驱顶替node的位置，结果也还是一个二分搜索树
+            Node successor = minValue(node.right);
+            successor.right = removeMin(node.right);
+            successor.left = node.left;
+            node.left = null;
+            node.right = null;
+            return successor;
+        }
 
     }
 
@@ -402,6 +510,30 @@ public class BST {
 
         // 遍历
 //        System.out.println(bst);
+
+        print(bst.inOrder());
+
+        System.out.println("最大值：" + bst.maxValue());
+        System.out.println("最小值：" + bst.minValue());
+
+        /*System.out.print("依次删除最小值：");
+        while (!bst.isEmpty()) {
+            System.out.print(bst.removeMin() + "\t");
+        }
+        System.out.println();
+        print(bst.inOrder());*/
+
+        /*System.out.print("依次删除最大值：");
+        while (!bst.isEmpty()) {
+            System.out.print(bst.removeMax() + "\t");
+        }
+        System.out.println();
+        print(bst.inOrder());*/
+
+        /*final int deleteVal = 5;
+        System.out.println("删除" + deleteVal + "后的二叉树遍历结果:");
+        bst.remove(deleteVal);
+        print(bst.inOrder());*/
 
         System.out.println("前序遍历：");
         print(bst.preOrder());
