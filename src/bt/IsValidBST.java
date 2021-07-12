@@ -16,12 +16,11 @@ public class IsValidBST {
         TreeNode level2Left = new TreeNode(9);
         TreeNode level2Right = new TreeNode(20);
         head.left = level2Left;
-//        head.right = level2Right;
+        head.right = level2Right;
 
         IsValidBST obj = new IsValidBST();
         System.out.println(obj.isValidBST(head));
-        boolean a = obj.isValidBST2(head);
-        System.out.println(a);
+        System.out.println(obj.isValidBST2(head));
     }
 
     // 中序遍历-递归
